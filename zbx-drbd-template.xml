@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2023-09-11T03:28:56Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template DRBD for Zabbix Agent active</template>
+            <name>Template DRBD for Zabbix Agent active</name>
+            <description>Required scripts on the remote computer</description>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>DRBD Resources Discovery</name>
+                    <key>drbd.discovery</key>
+                    <delay>30m</delay>
+                    <lifetime>7d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Activity Log Updates for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},al]</key>
+                            <history>30d</history>
+                            <units>updates</units>
+                            <description>Number of updates made to the activity log. The activity log tracks changes made when the peer node is unavailable.</description>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Application Pending for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},ap]</key>
+                            <history>30d</history>
+                            <units>ops</units>
+                            <description>Number of block I/O operations that have been submitted by applications but have not yet completed.</description>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Bitmap Updates for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},bm]</key>
+                            <history>30d</history>
+                            <units>updates</units>
+                            <description>Number of updates made to the dirty bitmap. This bitmap tracks changes made while the peer node's disk was inconsistent.</description>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Connection State for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},cs]</key>
+                            <history>30d</history>
+                            <valuemap>
+                                <name>DRBD Connection States(cs)</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&lt;&gt;{last(#2)}</expression>
+                                    <name>DRBD Connection State changed from {ITEM.VALUE2} to {ITEM.VALUE1} for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                                    <status>DISABLED</status>
+                                    <priority>WARNING</priority>
+                                    <description>Connection State(cs) is has changed since last reported value</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;1&#13;
+and&#13;
+{last(#2)}&gt;1&#13;
+and&#13;
+{last(#3)}&gt;1</expression>
+                                    <name>DRBD Connection State is {ITEM.VALUE} for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                                    <priority>AVERAGE</priority>
+                                    <description>Connection State(cs) is not in state &quot;Connected&quot;(2)</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Disk Read for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},dr]</key>
+                            <history>30d</history>
+                            <units>B</units>
+                            <description>Amount of data (in KB) read from the local disk since connection establishment.</description>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>1000</params>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Disk State for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},ds]</key>
+                            <history>30d</history>
+                            <description>Displays the state of the local and remote disks. For example, UpToDate/UpToDate means both disks are synchronized.</description>
+                            <valuemap>
+                                <name>DRBD Disk States(ds)</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&lt;&gt;{last(#2)}</expression>
+                                    <name>DRBD Disk State changed from {ITEM.VALUE2} to {ITEM.VALUE1} for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                                    <status>DISABLED</status>
+                                    <priority>WARNING</priority>
+                                    <description>Disk State(ds) is has changed since last reported value</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;1&#13;
+and&#13;
+{last(#2)}&gt;1&#13;
+and&#13;
+{last(#3)}&gt;1</expression>
+                                    <name>DRBD Disk State is {ITEM.VALUE} for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                                    <priority>HIGH</priority>
+                                    <description>Disk State(ds) is in a bad state</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Disk Write for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},dw]</key>
+                            <history>30d</history>
+                            <units>B</units>
+                            <description>Amount of data (in KB) written on the local disk since connection establishment.</description>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>1000</params>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Epochs for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},ep]</key>
+                            <history>30d</history>
+                            <description>Number of epoch objects, representing groups of requests. Usually 1. Might increase under I/O load when using either the barrier or the none write ordering method</description>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Pending Local I/O for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},lo]</key>
+                            <history>30d</history>
+                            <units>ops</units>
+                            <description>Number of block I/O operations currently in progress to the local I/O sub-system issued by DRBD.</description>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Network Receive for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},nr]</key>
+                            <history>30d</history>
+                            <units>B</units>
+                            <description>Amount of data (in KB) received from the peer since connection establishment.</description>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>1000</params>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Network Send for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},ns]</key>
+                            <history>30d</history>
+                            <units>B</units>
+                            <description>Amount of data (in KB) sent to the peer since connection establishment.</description>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>1000</params>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Data Out Of Sync for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},oos]</key>
+                            <history>30d</history>
+                            <units>B</units>
+                            <description>Amount of data (in KB) that is currently out of sync with the peer.</description>
+                            <preprocessing>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>1000</params>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Pending Peer I/O for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},pe]</key>
+                            <history>30d</history>
+                            <units>ops</units>
+                            <description>Number of block I/O operations that have been sent to the peer but have not yet been completed.</description>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Role for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},ro]</key>
+                            <history>30d</history>
+                            <description>Indicates the roles of the DRBD device on the local and the remote nodes, respectively. For example, Primary/Secondary or Secondary/Primary.</description>
+                            <valuemap>
+                                <name>DRBD Role States(ro)</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&lt;&gt;{last(#2)}</expression>
+                                    <name>DRBD Role changed from {ITEM.VALUE2} to {ITEM.VALUE1} for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                                    <priority>WARNING</priority>
+                                    <description>Role(ro) is has changed since last reported value</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Unacknowledged I/O for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>drbd.stats[{#DRBD_MINOR_NUM},ua]</key>
+                            <history>30d</history>
+                            <units>ops</units>
+                            <description>Number of block I/O operations that have been completed by the local node but have not yet been acknowledged by the peer.</description>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>Disk Stats for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>DASHED_LINE</drawtype>
+                                    <color>F7941D</color>
+                                    <yaxisside>RIGHT</yaxisside>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},ap]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>FC6EA3</color>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},dr]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>5CCD18</color>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},dw]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <color>C7A72D</color>
+                                    <yaxisside>RIGHT</yaxisside>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},lo]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>5</sortorder>
+                                    <color>BA2A5D</color>
+                                    <yaxisside>RIGHT</yaxisside>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},pe]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>6</sortorder>
+                                    <drawtype>DOTTED_LINE</drawtype>
+                                    <color>F230E0</color>
+                                    <yaxisside>RIGHT</yaxisside>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},ua]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Network Stats for {#DRBD_RESOURCE_NAME}:{#DRBD_MINOR_NUM}</name>
+                            <ymin_type_1>FIXED</ymin_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>FILLED_REGION</drawtype>
+                                    <color>FF4000</color>
+                                    <yaxisside>RIGHT</yaxisside>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},oos]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>199C0D</color>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},nr]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>2774A4</color>
+                                    <item>
+                                        <host>Template DRBD for Zabbix Agent active</host>
+                                        <key>drbd.stats[{#DRBD_MINOR_NUM},ns]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>DRBD Connection States(cs)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Unknown state</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Connected, in-sync (Connected)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Connected, syncing to peer (SyncSource)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Connected, syncing from peer (SyncTarget)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Connected, in-sync, verifying to peer (VerifyS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>Connected, in-sync, verifying from peer (VerifyT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>Connected, waiting for first packet (WFReportParams)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>Connected, starting sync to peer (StartingSyncS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>8</value>
+                    <newvalue>Connected, starting sync from peer (StartingSyncT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>9</value>
+                    <newvalue>Connected, starting sync to peer (WFBitMapS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>10</value>
+                    <newvalue>Connected, starting sync from peer (WFBitMapT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>11</value>
+                    <newvalue>Connected, starting sync (WFSyncUUID)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>12</value>
+                    <newvalue>Connected, paused sync to peer (PausedSyncS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>13</value>
+                    <newvalue>Connected, paused sync from peer (PausedSyncT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>14</value>
+                    <newvalue>Disconnected, no config (StandAlone)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>15</value>
+                    <newvalue>Disconnecting (Disconnecting)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>16</value>
+                    <newvalue>Disconnected (Unconnected)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>17</value>
+                    <newvalue>Disconnected (Timeout)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>18</value>
+                    <newvalue>Disconnected (BrokenPipe)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>19</value>
+                    <newvalue>Disconnected (NetworkFailure)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>20</value>
+                    <newvalue>Disconnected (ProtocolError)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>21</value>
+                    <newvalue>Disconnecting (TearDown)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>22</value>
+                    <newvalue>Disconnected (WFConnection)</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DRBD Disk States(ds)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Unknown state</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>UpToDate/UpToDate: Both sides are up-to-date</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>UpToDate/DUnknown: Local up-to-date, remote unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>DUnknown/UpToDate: Local unknown, remote up-to-date</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Inconsistent/DUnknown: Local inconsistent, remote unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>DUnknown/Inconsistent: Local unknown, remote inconsistent</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>Consistent/DUnknown: Local consistent, remote unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>Inconsistent/UpToDate: Local inconsistent, remote consistent</newvalue>
+                </mapping>
+                <mapping>
+                    <value>8</value>
+                    <newvalue>UpToDate/Inconsistent: Local consistent, remote inconsistent</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DRBD Role States(ro)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Unknown state</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Primary/Secondary: This node is primary</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Secondary/Primary: This node is secondary</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Primary/Unknown: This node is primary, other node is unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Secondary/Unknown: This node is secondary, other node is unknown</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>

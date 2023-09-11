@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2023-09-11T03:30:04Z</date>
+    <value_maps>
+        <value_map>
+            <name>DRBD Connection States(cs)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Unknown state</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Connected, in-sync (Connected)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Connected, syncing to peer (SyncSource)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Connected, syncing from peer (SyncTarget)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Connected, in-sync, verifying to peer (VerifyS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>Connected, in-sync, verifying from peer (VerifyT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>Connected, waiting for first packet (WFReportParams)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>Connected, starting sync to peer (StartingSyncS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>8</value>
+                    <newvalue>Connected, starting sync from peer (StartingSyncT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>9</value>
+                    <newvalue>Connected, starting sync to peer (WFBitMapS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>10</value>
+                    <newvalue>Connected, starting sync from peer (WFBitMapT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>11</value>
+                    <newvalue>Connected, starting sync (WFSyncUUID)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>12</value>
+                    <newvalue>Connected, paused sync to peer (PausedSyncS)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>13</value>
+                    <newvalue>Connected, paused sync from peer (PausedSyncT)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>14</value>
+                    <newvalue>Disconnected, no config (StandAlone)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>15</value>
+                    <newvalue>Disconnecting (Disconnecting)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>16</value>
+                    <newvalue>Disconnected (Unconnected)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>17</value>
+                    <newvalue>Disconnected (Timeout)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>18</value>
+                    <newvalue>Disconnected (BrokenPipe)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>19</value>
+                    <newvalue>Disconnected (NetworkFailure)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>20</value>
+                    <newvalue>Disconnected (ProtocolError)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>21</value>
+                    <newvalue>Disconnecting (TearDown)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>22</value>
+                    <newvalue>Disconnected (WFConnection)</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DRBD Disk States(ds)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Unknown state</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>UpToDate/UpToDate: Both sides are up-to-date</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>UpToDate/DUnknown: Local up-to-date, remote unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>DUnknown/UpToDate: Local unknown, remote up-to-date</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Inconsistent/DUnknown: Local inconsistent, remote unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>DUnknown/Inconsistent: Local unknown, remote inconsistent</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>Consistent/DUnknown: Local consistent, remote unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>Inconsistent/UpToDate: Local inconsistent, remote consistent</newvalue>
+                </mapping>
+                <mapping>
+                    <value>8</value>
+                    <newvalue>UpToDate/Inconsistent: Local consistent, remote inconsistent</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DRBD Role States(ro)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Unknown state</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Primary/Secondary: This node is primary</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Secondary/Primary: This node is secondary</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Primary/Unknown: This node is primary, other node is unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Secondary/Unknown: This node is secondary, other node is unknown</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>
