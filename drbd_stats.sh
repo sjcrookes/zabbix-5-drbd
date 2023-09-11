@@ -20,29 +20,30 @@ function cs_mapping {
 
     case "$cs_value" in
         "Connected")         echo 1 ;;  # A DRBD connection has been established, data mirroring is now active.
-        "SyncSource")        echo 2 ;;  # Synchronization is currently running, with the local node being the source$
-        "SyncTarget")        echo 3 ;;  # Synchronization is currently running, with the local node being the target$
-        "VerifyS")           echo 4 ;;  # On-line device verification is currently running, with the local node bein$
-        "VerifyT")           echo 5 ;;  # On-line device verification is currently running, with the local node bein$
-        "WFReportParams")    echo 6 ;;  # TCP connection has been established, this node waits for the first network$
-        "StartingSyncS")     echo 7 ;;  # Full synchronization, initiated by the administrator, is just starting. Th$
-        "StartingSyncT")     echo 8 ;;  # Full synchronization, initiated by the administrator, is just starting. Th$
-        "WFBitMapS")         echo 9 ;;  # Partial synchronization is just starting. The local node will be the sourc$
-        "WFBitMapT")         echo 10 ;; # Partial synchronization is just starting. The local node will be the targe$
-        "WFSyncUUID")        echo 11 ;; # Synchronization is about to begin. Next possible states: SyncTarget or Pau$
-        "PausedSyncS")       echo 12 ;; # The local node is the source of an ongoing synchronization, but synchroniz$
-        "PausedSyncT")       echo 13 ;; # The local node is the target of an ongoing synchronization, but synchroniz$
-        "StandAlone")        echo 14 ;; # No network configuration available. The resource has not yet been connecte$
+        "SyncSource")        echo 2 ;;  # Synchronization is currently running, with the local node being the source of synchronization.
+        "SyncTarget")        echo 3 ;;  # Synchronization is currently running, with the local node being the target of synchronization.
+        "VerifyS")           echo 4 ;;  # On-line device verification is currently running, with the local node being the source of verification.
+        "VerifyT")           echo 5 ;;  # On-line device verification is currently running, with the local node being the target of verification.
+        "WFReportParams")    echo 6 ;;  # TCP connection has been established, this node waits for the first network packet from the peer.
+        "StartingSyncS")     echo 7 ;;  # Full synchronization, initiated by the administrator, is just starting. The local node will be the source.
+        "StartingSyncT")     echo 8 ;;  # Full synchronization, initiated by the administrator, is just starting. The local node will be the target.
+        "WFBitMapS")         echo 9 ;;  # Partial synchronization is just starting. The local node will be the source of synchronization.
+        "WFBitMapT")         echo 10 ;; # Partial synchronization is just starting. The local node will be the target of synchronization.
+        "WFSyncUUID")        echo 11 ;; # Synchronization is about to begin. Next possible states: SyncTarget or PausedSyncT.
+        "PausedSyncS")       echo 12 ;; # The local node is the source of an ongoing synchronization, but synchronization is currently paused.
+        "PausedSyncT")       echo 13 ;; # The local node is the target of an ongoing synchronization, but synchronization is currently paused.
+        "StandAlone")        echo 14 ;; # No network configuration available. The resource has not yet been connected, or has been administratively disconnected.
         "Disconnecting")     echo 15 ;; # Temporary state during disconnection. The next state is StandAlone.
-        "Unconnected")       echo 16 ;; # Temporary state, prior to a connection attempt. Possible next states: WFCo$
-        "Timeout")           echo 17 ;; # Temporary state following a timeout in the communication with the peer. Ne$
-        "BrokenPipe")        echo 18 ;; # Temporary state after the connection to the peer was lost. Next state: Unc$
-        "NetworkFailure")    echo 19 ;; # Temporary state after the connection to the partner was lost. Next state: $
-        "ProtocolError")     echo 20 ;; # Temporary state after the connection to the partner was lost. Next state: $
-        "TearDown")          echo 21 ;; # Temporary state. The peer is closing the connection. Next state: Unconnect$
+        "Unconnected")       echo 16 ;; # Temporary state, prior to a connection attempt. Possible next states: WFConnection and WFReportParams.
+        "Timeout")           echo 17 ;; # Temporary state following a timeout in the communication with the peer. Next state: Unconnected.
+        "BrokenPipe")        echo 18 ;; # Temporary state after the connection to the peer was lost. Next state: Unconnected.
+        "NetworkFailure")    echo 19 ;; # Temporary state after the connection to the partner was lost. Next state: Unconnected.
+        "ProtocolError")     echo 20 ;; # Temporary state after the connection to the partner was lost. Next state: Unconnected.
+        "TearDown")          echo 21 ;; # Temporary state. The peer is closing the connection. Next state: Unconnected.
         "WFConnection")      echo 22 ;; # This node is waiting until the peer node becomes visible on the network.
         *)                   echo 0  ;; # Unknown status
     esac
+
 }
 function ro_mapping() {
     local ro_value="$1"
